@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { defineProps, PropType } from 'vue';
+import { defineProps } from 'vue';
 import { useTaskStore } from '@/stores/useTaskStore';
 import { Task } from '@/types/Task';
+import BaseButton from '@/components/BaseButton.vue';
 
 const props = defineProps<{task: Task}>()
 const task = props.task
@@ -20,18 +21,9 @@ const { toggleCompletion, removeTask } = useTaskStore()
       <p class="text-sm text-gray-600">{{ task.description }}</p>
     </div>
     <div class="flex gap-2">
-      <button
-        class="px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600 text-decoration-none"
-        @click="toggleCompletion(task.id)"
-      >
-        {{ task.isCompleted ? "Undo" : "Complete" }}
-      </button>
-      <button
-        class="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600"
-        @click="removeTask(task.id)"
-      >
-        Delete
-      </button>
+      <BaseButton type="primary" @clickHandler="toggleCompletion" :valueToPass="task.id" :text="task.isCompleted ? 'Undo' : 'Complete'" />
+      <BaseButton type="secondary" @clickHandler="removeTask" :valueToPass="task.id" text="Delete" />
+    
     </div>
   </div>
 </template>
